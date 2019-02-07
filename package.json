@@ -1,0 +1,37 @@
+{
+  "name": "vehicle-inventory-carousel",
+  "version": "1.0.0",
+  "description": "An app that displays dealer vehicle inventory",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --setupFiles dotenv/config --detectOpenHandles",
+    "build": "webpack --env.ENVIRONMENT=production --config ./webpack.config.js",
+    "start": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.js --content-base ./public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fals3Android/vehicle-inventory-carousel.git"
+  },
+  "author": "David Davila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fals3Android/vehicle-inventory-carousel/issues"
+  },
+  "homepage": "https://github.com/Fals3Android/vehicle-inventory-carousel#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "jest": "^24.1.0",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
