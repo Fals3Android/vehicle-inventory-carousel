@@ -1,10 +1,10 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Carousel from './containers/Carousel';
 
 class App extends React.Component {
   render() {
-    return <div>Hello World</div>
+    return <Carousel />
   }
 }
 
