@@ -10,7 +10,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   mode: 'development',
   output: {
     path: __dirname + '/public',

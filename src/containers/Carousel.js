@@ -1,33 +1,34 @@
 import React from 'react';
 import VehicleSlide from '../components/VehicleSlide';
-import Arrow from '../components/Arrow'
-
-const slideContent = [
-    'test-1',
-    'test-2',
-    'test-3',
-    'test-4',
-    'test-5',
-    'test-6'
-];
+import Arrow from '../components/Arrow';
+import Data from '../services/inventory-data';
 
 const styles = {
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'center'
 };
 
 class Carousel extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            currentImageIndex: 0
+            currentImageIndex: 0,
+            slideData: []
         }
 
+        this.maxSlides = 3;
         this.nextSlide = this.nextSlide.bind(this);
         this.previousSlide = this.previousSlide.bind(this);
     }
 
+    async componentWillMount() {
+        const inventory = await Data();
+        this.setState({slideData: inventory.data.results})
+    }
+
     previousSlide() {
-        const lastIndex = slideContent.length - 3;
+        const lastIndex = this.state.slideData.length - this.maxSlides;
         const { currentImageIndex } = this.state;
         const shouldResetIndex = currentImageIndex === 0;
         const index =  shouldResetIndex ? lastIndex : currentImageIndex - 1;
@@ -38,7 +39,7 @@ class Carousel extends React.Component {
     }
     
     nextSlide() {
-        const lastIndex = slideContent.length - 3;
+        const lastIndex = this.state.slideData.length - this.maxSlides;
         const { currentImageIndex } = this.state;
         const shouldResetIndex = currentImageIndex === lastIndex;
         const index =  shouldResetIndex ? 0 : currentImageIndex + 1;
@@ -47,23 +48,20 @@ class Carousel extends React.Component {
             currentImageIndex: index
         });
     }
+
+    setMaxSlides() {
+        return this.state.slideData.slice(
+            this.state.currentImageIndex, 
+            this.state.currentImageIndex + this.maxSlides
+        );
+    }
     
     render() {
         return ( 
         <div className="carousel" style={styles}>
-            <Arrow
-            direction="Prev"
-            clickFunction={ this.previousSlide }
-            />
-
-            <VehicleSlide 
-                details={ slideContent.slice(this.state.currentImageIndex, this.state.currentImageIndex + 3) } 
-            />
-
-            <Arrow
-            direction="Next"
-            clickFunction={ this.nextSlide }
-            />
+            <Arrow direction="Prev" clickFunction={ this.previousSlide }/>
+            <VehicleSlide details={ this.setMaxSlides() } />
+            <Arrow direction="Next" clickFunction={ this.nextSlide }/>
         </div>
         )
     }
