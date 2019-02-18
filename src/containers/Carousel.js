@@ -2,10 +2,12 @@ import React from 'react';
 import VehicleSlide from '../components/VehicleSlide';
 import Arrow from '../components/Arrow';
 import Data from '../services/inventory-data';
+import Pips from '../components/Pips';
 
 const styles = {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexWrap: 'wrap'
 };
 
 class Carousel extends React.Component {
@@ -28,10 +30,10 @@ class Carousel extends React.Component {
     }
 
     previousSlide() {
-        const lastIndex = this.state.slideData.length - this.maxSlides;
+        const lastIndex = this.state.slideData.length - 1;
         const { currentImageIndex } = this.state;
         const shouldResetIndex = currentImageIndex === 0;
-        const index =  shouldResetIndex ? lastIndex : currentImageIndex - 1;
+        const index =  shouldResetIndex ? lastIndex : currentImageIndex - this.maxSlides;
 
         this.setState({
             currentImageIndex: index
@@ -41,8 +43,8 @@ class Carousel extends React.Component {
     nextSlide() {
         const lastIndex = this.state.slideData.length - this.maxSlides;
         const { currentImageIndex } = this.state;
-        const shouldResetIndex = currentImageIndex === lastIndex;
-        const index =  shouldResetIndex ? 0 : currentImageIndex + 1;
+        const shouldResetIndex = currentImageIndex >= lastIndex;
+        const index =  shouldResetIndex ? 0 : currentImageIndex + this.maxSlides;
 
         this.setState({
             currentImageIndex: index
@@ -55,6 +57,17 @@ class Carousel extends React.Component {
             this.state.currentImageIndex + this.maxSlides
         );
     }
+
+    setMaxPips() {
+        const maxFloor = Math.floor(this.state.slideData.length / this.maxSlides);
+        let pips = new Array(maxFloor).fill(0);
+
+        if((this.state.slideData % this.maxSlides) !== 0) {
+            pips.push(0);
+        }
+
+        return pips;
+    }
     
     render() {
         return ( 
@@ -62,6 +75,7 @@ class Carousel extends React.Component {
             <Arrow direction="Prev" clickFunction={ this.previousSlide }/>
             <VehicleSlide details={ this.setMaxSlides() } />
             <Arrow direction="Next" clickFunction={ this.nextSlide }/>
+            <Pips maxPips={ this.setMaxPips() }/>
         </div>
         )
     }
