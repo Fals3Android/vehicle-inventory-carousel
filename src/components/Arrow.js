@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Arrow = ({ direction, clickFunction }) => {
+const Arrow = ({ direction, slideFunction, pipFunction }) => {
     const styles = {
         alignSelf: 'center',
         cursor: 'pointer',
@@ -9,11 +9,16 @@ const Arrow = ({ direction, clickFunction }) => {
         padding: '15px'
     };
 
+    function handleOnClick() {
+        slideFunction();
+        pipFunction();
+    }
+
     return (
         <div
             className={ `slide-arrow ${direction}` }
             style={styles}
-            onClick={ clickFunction }>
+            onClick={ handleOnClick }>
             {direction}
         </div>
     );
