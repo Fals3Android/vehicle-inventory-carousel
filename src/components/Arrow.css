@@ -1,0 +1,7 @@
+.slide-button {
+    align-self: center;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    padding: 15px;
+}

@@ -1,27 +1,13 @@
 import React from 'react';
+const styles = require('./Pips.css');
 
 const Pips = ({ maxPips }) => {
-    const otherPip = {
-        width: '13px',
-        height: '13px',
-        borderRadius: '100%',
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        margin: '5px'
-    };
-
-    const currentPip = {
-        width: '13px',
-        height: '13px',
-        borderRadius: '100%',
-        backgroundColor: 'rgba(0,0,0,0.9)',
-        margin: '5px'
-    };
-    
     return (
-        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <div className='pip-container'>
             {
                 maxPips.map((pip, i) => {
-                    return (pip) ? <div key={i} style={currentPip}></div> : <div key={i} style={otherPip}></div> 
+                    return (pip) ? <div key={i} className='selected-pip pip'></div> : 
+                        <div key={i} className='not-selected-pip pip'></div> 
                 })
             }
         </div>

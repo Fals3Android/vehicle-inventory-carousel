@@ -17,7 +17,7 @@ module.exports = {
     filename: 'build/app.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.css']
   },
   devServer: {
     headers: {
@@ -33,6 +33,14 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loader: [
+          "style-loader",
+          "css-loader"
+        ]
       }
     ]
   },

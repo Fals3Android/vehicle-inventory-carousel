@@ -3,12 +3,7 @@ import VehicleSlide from '../components/VehicleSlide';
 import Arrow from '../components/Arrow';
 import Data from '../services/inventory-data';
 import Pips from '../components/Pips';
-
-const styles = {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap'
-};
+const styles = require('./Carousel.css');
 
 class Carousel extends React.Component {
     constructor(props) {
@@ -104,7 +99,7 @@ class Carousel extends React.Component {
     
     render() {
         return ( 
-        <div className="carousel" style={styles}>
+        <div className="carousel">
             <Arrow direction="Prev" slideFunction={ this.previousSlide } pipFunction={this.prevPip}/>
             <VehicleSlide details={ this.setMaxSlides() } />
             <Arrow direction="Next" slideFunction={ this.nextSlide } pipFunction={this.nextPip}/>
