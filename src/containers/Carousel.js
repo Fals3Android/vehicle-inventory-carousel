@@ -101,7 +101,7 @@ class Carousel extends React.Component {
         return ( 
         <div className="carousel">
             <Arrow direction="Prev" slideFunction={ this.previousSlide } pipFunction={this.prevPip}/>
-            <VehicleSlide details={ this.setMaxSlides() } />
+            <VehicleSlide slides={ this.setMaxSlides() } maxSlides={ this.maxSlides } />
             <Arrow direction="Next" slideFunction={ this.nextSlide } pipFunction={this.nextPip}/>
             <Pips maxPips={ this.state.maxPips } currentPip={ this.state.currentPip }/>
         </div>

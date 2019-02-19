@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Fals3Android/vehicle-inventory-carousel#readme",
   "dependencies": {
+    "@nearform/react-animation": "^1.0.6",
     "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "react": "^16.8.1",
