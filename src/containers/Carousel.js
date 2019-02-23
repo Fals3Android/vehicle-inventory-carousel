@@ -3,6 +3,7 @@ import VehicleSlide from '../components/VehicleSlide';
 import Arrow from '../components/Arrow';
 import Data from '../services/inventory-data';
 import Pips from '../components/Pips';
+import AppContext from '../contexts/AppContext';
 const styles = require('./Carousel.css');
 
 class Carousel extends React.Component {
@@ -10,64 +11,69 @@ class Carousel extends React.Component {
         super(props);
 
         this.state = {
+            maxSlides: 3,
             currentImageIndex: 0,
             currentPip: 0,
             slideData: [],
+            currentSlides: [],
             maxPips: []
         }
 
-        this.maxSlides = 3;
         this.nextSlide = this.nextSlide.bind(this);
         this.previousSlide = this.previousSlide.bind(this);
         this.prevPip = this.prevPip.bind(this);
         this.nextPip = this.nextPip.bind(this);
     }
-
+    // TODO: cleanup this component will mount situation maybe do some pre-processing so as 
+    // not to call setState multiple times
     async componentWillMount() {
         const inventory = await Data();
-        this.setState({slideData: inventory.data.results})
+        this.setState({
+            slideData: inventory.data.results   
+        });
+        this.setState({
+            currentSlides: this.state.slideData.slice(0, this.state.maxSlides),
+        });
         this.setMaxPips();
     }
 
-    previousSlide() {
-        const lastIndex = this.state.slideData.length - 1;
-        const { currentImageIndex } = this.state;
-        const shouldResetIndex = currentImageIndex === 0;
-        const index =  shouldResetIndex ? lastIndex : currentImageIndex - this.maxSlides;
+    setMaxPips() {
+        const maxFloor = Math.floor(this.state.slideData.length / this.state.maxSlides);
+        let pips = new Array(maxFloor).fill(0);
+        pips[0] = 1; // defaut pip
 
+        if((this.state.slideData % this.state.maxSlides) !== 0) {
+            pips.push(0);
+        }
+
+        this.setState({maxPips: pips});
+    }
+
+    //TODO: see if you can move these two methods to the Arrow consumer -> how to set state from consumer?
+    previousSlide() {
+        const { currentImageIndex, slideData, maxSlides } = this.state;
+        const lastIndex = slideData.length - 1;        
+        const shouldResetIndex = currentImageIndex === 0;
+        const index =  shouldResetIndex ? lastIndex : currentImageIndex - maxSlides;
+        const current = slideData.slice(index, index + maxSlides);
+        
         this.setState({
+            currentSlides: current,
             currentImageIndex: index
         });
     }
     
     nextSlide() {
-        const lastIndex = this.state.slideData.length - this.maxSlides;
-        const { currentImageIndex } = this.state;
+        const { currentImageIndex, slideData, maxSlides } = this.state;
+        const lastIndex = slideData.length - maxSlides;
         const shouldResetIndex = currentImageIndex >= lastIndex;
-        const index =  shouldResetIndex ? 0 : currentImageIndex + this.maxSlides;
+        const index =  shouldResetIndex ? 0 : currentImageIndex + maxSlides;
+        const current = slideData.slice(index, index + maxSlides);
 
         this.setState({
+            currentSlides: current,
             currentImageIndex: index
         });
-    }
-
-    setMaxSlides() {
-        return this.state.slideData.slice(
-            this.state.currentImageIndex, 
-            this.state.currentImageIndex + this.maxSlides
-        );
-    }
-
-    setMaxPips() {
-        const maxFloor = Math.floor(this.state.slideData.length / this.maxSlides);
-        let pips = new Array(maxFloor).fill(0);
-        pips[0] = 1; // defaut pip
-
-        if((this.state.slideData % this.maxSlides) !== 0) {
-            pips.push(0);
-        }
-
-        this.setState({maxPips: pips});
     }
 
     prevPip() {
@@ -100,10 +106,16 @@ class Carousel extends React.Component {
     render() {
         return ( 
         <div className="carousel">
-            <Arrow direction="Prev" slideFunction={ this.previousSlide } pipFunction={this.prevPip}/>
-            <VehicleSlide slides={ this.setMaxSlides() } maxSlides={ this.maxSlides } />
-            <Arrow direction="Next" slideFunction={ this.nextSlide } pipFunction={this.nextPip}/>
-            <Pips maxPips={ this.state.maxPips } currentPip={ this.state.currentPip }/>
+            <AppContext.Provider value={this.state}>
+                <Arrow direction="Prev" 
+                    slideFunction={ this.previousSlide } pipFunction={this.prevPip}
+                />
+                <VehicleSlide />
+                <Arrow direction="Next" 
+                    slideFunction={ this.nextSlide } pipFunction={this.nextPip}
+                />
+                <Pips maxPips={ this.state.maxPips } currentPip={ this.state.currentPip }/>
+            </AppContext.Provider>
         </div>
         )
     }
