@@ -5,16 +5,16 @@
 }
 
 .pip {
-    width: 13px;
-    height: 13px;
+    width: 10px;
+    height: 10px;
     border-radius: 100%;
     margin: 5px;
 }
 
 .selected-pip {
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(79, 122, 201, 1);
 }
 
 .not-selected-pip {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(79, 122, 201, 0.3);
 }

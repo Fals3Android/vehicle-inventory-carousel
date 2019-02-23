@@ -19,9 +19,20 @@
 
 .vehicle-details {
     margin: 0px;
+    font-size: 10px;
+    color: gray;
+}
+
+.vehicle-title {
+    margin-bottom: 0px;
+}
+
+.vehicle-title::first-letter {
+    text-transform: uppercase;
 }
 
 .vehicle-details,
 .vehicle-title {
+    font-family: Helvetica;
     text-align: center
 }

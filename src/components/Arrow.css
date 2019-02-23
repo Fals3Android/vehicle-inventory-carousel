@@ -1,4 +1,6 @@
 .slide-button {
+    font-family: Helvetica;
+    font-size: 12px;
     align-self: center;
     cursor: pointer;
     color: white;
