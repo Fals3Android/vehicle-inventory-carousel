@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CarouselProvider, CarouselConsumer } from './contexts/CarouselContext';
 import Carousel from './containers/Carousel';
 
-class App extends React.Component {
-  render() {
-    return <Carousel />
-  }
+
+const Root = () => {
+  return <Carousel />    
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(
+  <CarouselProvider>
+    <Root />
+  </CarouselProvider>, 
+  document.querySelector('#root')
+);

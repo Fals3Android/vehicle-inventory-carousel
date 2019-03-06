@@ -1,6 +1,5 @@
 import React from 'react';
 const styles = require('./Arrow.css');
-import AppContext from '../contexts/AppContext';
 
 const Arrow = ({ direction, slideFunction, pipFunction, setCurrentSlides }) => {
     function handleOnClick() {

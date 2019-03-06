@@ -1,19 +1,19 @@
 import React from 'react';
-const styles = require('./VehicleSlide.css');
 import { AnimateOnChange } from '@nearform/react-animation';
-import AppContext from '../contexts/AppContext';
+import { CarouselConsumer } from '../contexts/CarouselContext';
+const styles = require('./VehicleSlide.css');
 
 const VehicleSlide = () => {
-    return <AppContext.Consumer>
-        { (state) => {
+    return <CarouselConsumer>
+        { ({ currentSlides, maxSlides}) => {
                 // Ensure blank slides if a set does not equal the max
-                if(state.currentSlides.length !== state.maxSlides) {
-                    for(let i = state.currentSlides.length; i < state.maxSlides; i++) {
-                        state.currentSlides.push(null);
+                if(currentSlides.length !== maxSlides) {
+                    for(let i = currentSlides.length; i < maxSlides; i++) {
+                        currentSlides.push(null);
                     }
                 }
                 
-                return state.currentSlides.map((slide, index) => {
+                return currentSlides.map((slide, index) => {
                     return (slide !== null) ?
                     <AnimateOnChange key={index}>
                         <div className='vehicle-slide'>
@@ -27,7 +27,7 @@ const VehicleSlide = () => {
                 });
             }
         }
-    </AppContext.Consumer>
+    </CarouselConsumer>
 }
 
 export default VehicleSlide;
